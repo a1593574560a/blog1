@@ -1,0 +1,151 @@
+{% extends 'base.html' %}
+{% block section %}<section class="container">
+<div class="content-wrap">
+<div class="content">
+  <header class="article-header">
+	<h1 class="article-title"><a href="#" title="用DTcms做一个独立博客网站（响应式模板）" >{{ article.title }}</a></h1>
+	<div class="article-meta"> <span class="item article-meta-time">
+	  <time class="time" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="{{ article.add_time }}"><i class="glyphicon glyphicon-time"></i>{{ article.add_time }}</time>
+	  </span> <span class="item article-meta-source" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="来源：FCY网络博客"><i class="glyphicon glyphicon-globe"></i> FCY网络博客</span> <span class="item article-meta-category" data-toggle="tooltip" data-placement="bottom" title="{{ article.label_one }}" data-original-title=""><i class="glyphicon glyphicon-list"></i> <a href="#" title="{{ article.label_one }}" >{{ article.label_one }}</a></span> <span class="item article-meta-views" data-toggle="tooltip" data-placement="bottom" title="" data-original-title="浏览量:{{ article.click_nums }}"><i class="glyphicon glyphicon-eye-open"></i>{{ article.click_nums }}</span> <span class="item article-meta-comment" data-toggle="tooltip" data-placement="bottom" title="评论量:{{ article.comment }}" data-original-title=""><i class="glyphicon glyphicon-comment"></i> {{ article.comment }}</span> </div>
+  </header>
+  <article class="article-content">
+	<p><img data-original="{{ MEDIA_URL }}{{ article.image }}" src="{{ MEDIA_URL }}{{ article.image }}" alt="" /></p>
+	<p>{% autoescape off %}{{ article.body }}{% endautoescape %}</p>
+
+	<div class="bdsharebuttonbox"><a href="#" class="bds_more" data-cmd="more"></a><a href="#" class="bds_qzone" data-cmd="qzone" title="分享到QQ空间"></a><a href="#" class="bds_tsina" data-cmd="tsina" title="分享到新浪微博"></a><a href="#" class="bds_tqq" data-cmd="tqq" title="分享到腾讯微博"></a><a href="#" class="bds_weixin" data-cmd="weixin" title="分享到微信"></a><a href="#" class="bds_tieba" data-cmd="tieba" title="分享到百度贴吧"></a><a href="#" class="bds_sqq" data-cmd="sqq" title="分享到QQ好友"></a></div>
+
+		  <script>                  window._bd_share_config = { "common": { "bdSnsKey": {}, "bdText": "", "bdMini": "2", "bdMiniList": false, "bdPic": "", "bdStyle": "1", "bdSize": "32" }, "share": {} }; with (document) 0[(getElementsByTagName('head')[0] || body).appendChild(createElement('script')).src = 'http://bdimg.share.baidu.com/static/api/js/share.js?v=0.js?cdnversion=' + ~(-new Date() / 36e5)];</script>
+  </article>
+  <div class="article-tags">标签：<a href="#list/2/" rel="tag" >{{ article.label_one.label }}</a>
+	</div>
+
+  <div class="title" id="comment">
+	<h3>评论</h3>
+  </div>
+  <div id="respond">
+		<form id="comment-form" name="comment-form" action="" method="POST">
+			<div class="comment">
+				<input name="nickname" id="" class="form-control" size="22" placeholder="您的昵称（必填）" maxlength="15" autocomplete="off" tabindex="1" type="text">
+				<input name="email" id="" class="form-control" size="22" placeholder="您的网址或邮箱（非必填）" maxlength="58" autocomplete="off" tabindex="2" type="text">
+				<div class="comment-box">
+					<textarea placeholder="您的评论或留言（必填）" name="message" id="comment-textarea" cols="100%" rows="3" tabindex="3"></textarea>
+					<div class="comment-ctrl">
+						<div class="comment-prompt" style="display: none;"> <i class="fa fa-spin fa-circle-o-notch"></i> <span class="comment-prompt-text">评论正在提交中...请稍后</span> </div>
+						<div class="comment-success" style="display: none;"> <i class="fa fa-check"></i> <span class="comment-prompt-text">评论提交成功...</span> </div>
+						<button type="submit" name="comment-submit" id="comment-submit" tabindex="4">评论</button>
+					</div>
+				</div>
+			</div>
+            {% csrf_token %}
+		</form>
+
+	</div>
+  <div id="postcomments">
+	{% for i in comments %}
+        <ol id="comment_list" class="commentlist">
+
+
+            <li class="comment-content">
+
+                <div class="comment-main">
+
+                    <p>
+
+                        <a class="address" href="#" rel="nofollow" target="_blank">{{ i.nick_name }}</a>
+
+                        <span class="time">({{ i.add_time }})</span>
+
+
+                        {{ i.message }}
+                    </p>
+
+                </div>
+            </li>
+
+        </ol>{% endfor %}
+  </div>
+</div>
+</div>
+<aside class="sidebar">
+<div class="fixed">
+  <div class="widget widget-tabs">
+	<ul class="nav nav-tabs" role="tablist">
+	  <li role="presentation" class="active"><a href="#notice" aria-controls="notice" role="tab" data-toggle="tab" draggable="false">统计信息</a></li>
+	  <li role="presentation"><a href="#contact" aria-controls="contact" role="tab" data-toggle="tab" draggable="false">联系站长</a></li>
+	</ul>
+	{% for i in articles %}<div class="tab-content">
+	  <div role="tabpanel" class="tab-pane contact active" id="notice">
+		<h2>日志总数:
+			  {{ i.get_article_nums }}篇
+		  </h2>
+
+		  <h2>时间:<SCRIPT language=JavaScript>
+<!--
+tmpDate = new Date();
+date = tmpDate.getDate();
+month= tmpDate.getMonth() + 1 ;
+year= tmpDate.getYear() + 1900;
+document.write(year);
+document.write("年");
+document.write(month);
+document.write("月");
+document.write(date);
+document.write("日 ");
+myArray=new Array(6);
+myArray[0]="星期日 "
+myArray[1]="星期一 "
+myArray[2]="星期二 "
+myArray[3]="星期三 "
+myArray[4]="星期四 "
+myArray[5]="星期五 "
+myArray[6]="星期六 "
+weekday=tmpDate.getDay();
+if (weekday==0 | weekday==6)
+{
+document.write(myArray[weekday])
+}
+else
+{
+document.write(myArray[weekday])
+}
+// -->
+</SCRIPT>
+
+          </h2>
+	  </div>
+		<div role="tabpanel" class="tab-pane contact" id="contact">
+		  <h2>QQ:
+			  <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2675269419" target="_blank" rel="nofollow" data-toggle="tooltip" data-placement="bottom" title="" draggable="false" data-original-title="QQ:2675269419">2675269419</a>
+		  </h2>
+		  <h2>Email:
+		  <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2675269419" target="_blank" data-toggle="tooltip" rel="nofollow" data-placement="bottom" title="" draggable="false" data-original-title="Email:2675269419@qq.com">2675269419@qq.com</a></h2>
+	  </div>
+	</div>{% endfor %}
+  </div>
+  <div class="widget widget_search">
+	<form class="navbar-form" action="{% url 'article:search' %}" method="post">
+	  <div class="input-group">
+		<input type="text" name="keyword" class="form-control" size="35" placeholder="请输入关键字" maxlength="15" autocomplete="off">
+		<span class="input-group-btn">
+		<button class="btn btn-default btn-search" name="search" type="submit">搜索</button>
+		</span> </div>
+        {% csrf_token %}
+	</form>
+  </div>
+</div>
+<div class="widget widget_hot">
+	  <h3>最新文章</h3>
+	  <ul>
+
+{% for i in new_article %}<li><a title="用DTcms做一个独立博客网站（响应式模板）" href="{% url 'article:article_detail' i.id %}" ><span class="thumbnail">
+<img class="thumb" data-original="{{ MEDIA_URL }}{{ i.image }}" src="{{ MEDIA_URL }}{{ i.image }}" alt="用DTcms做一个独立博客网站（响应式模板）"  style="display: block;">
+</span><span class="text">{{ i.article.title }}</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
+{{ i.add_time }}
+</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>{{ i.article.click_nums }}</span></a></li>{% endfor %}
+
+
+	  </ul>
+  </div>
+
+</aside>
+</section>{% endblock%}

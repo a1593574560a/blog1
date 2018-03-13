@@ -1,0 +1,134 @@
+{% extends 'base.html' %}
+{% block Notice %}<div class="fixed">
+  <div class="widget widget-tabs">
+	<ul class="nav nav-tabs" role="tablist">
+	  <li role="presentation" class="active"><a href="#notice" aria-controls="notice" role="tab" data-toggle="tab" >统计信息</a></li>
+	  <li role="presentation"><a href="#contact" aria-controls="contact" role="tab" data-toggle="tab" >联系站长</a></li>
+	</ul>
+	{% for i in article_list %}<div class="tab-content">
+	  <div role="tabpanel" class="tab-pane contact active" id="notice">
+		<h2>日志总数:
+			  {{ i.article.label_one.get_article_nums }}篇
+		  </h2>
+
+		  <h2>时间:<SCRIPT language=JavaScript>
+<!--
+tmpDate = new Date();
+date = tmpDate.getDate();
+month= tmpDate.getMonth() + 1 ;
+year= tmpDate.getYear() + 1900;
+document.write(year);
+document.write("年");
+document.write(month);
+document.write("月");
+document.write(date);
+document.write("日 ");
+myArray=new Array(6);
+myArray[0]="星期日 "
+myArray[1]="星期一 "
+myArray[2]="星期二 "
+myArray[3]="星期三 "
+myArray[4]="星期四 "
+myArray[5]="星期五 "
+myArray[6]="星期六 "
+weekday=tmpDate.getDay();
+if (weekday==0 | weekday==6)
+{
+document.write(myArray[weekday])
+}
+else
+{
+document.write(myArray[weekday])
+}
+// -->
+</SCRIPT>
+
+          </h2>
+	  </div>
+		<div role="tabpanel" class="tab-pane contact" id="contact">
+		  <h2>QQ:
+			  <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2675269419" target="_blank" rel="nofollow" data-toggle="tooltip" data-placement="bottom" title=""  data-original-title="QQ:2675269419">2675269419</a>
+		  </h2>
+		  <h2>Email:
+		  <a href="tencent://AddContact/?fromId=50&fromSubId=1&subcmd=all&uin=2675269419" target="_blank" data-toggle="tooltip" rel="nofollow" data-placement="bottom" title=""  data-original-title="2675269419@qq.com">2675269419@qq.com</a></h2>
+	  </div>
+	</div>{% endfor %}
+  </div>
+  <div class="widget widget_search">
+	<form class="navbar-form" action="{% url 'article:search' %}" method="post">
+	  <div class="input-group">
+		<input type="text" name="keyword" class="form-control" size="35" placeholder="请输入关键字" maxlength="15" autocomplete="off">
+		<span class="input-group-btn">
+		<button class="btn btn-default btn-search" name="search" type="submit">搜索</button>
+		</span> </div>
+        {% csrf_token %}
+	</form>
+  </div>
+</div>{% endblock %}
+{% block list %}<div class="widget widget_hot">
+	  <h3>最新文章</h3>
+	  <ul>
+			{% for i in new_article %}<li><a title="用DTcms做一个独立博客网站（响应式模板）" href="{% url 'article:article_detail' i.id %}" ><span class="thumbnail">
+				<img class="thumb" data-original="{{ MEDIA_URL }}{{ i.article.image }}" src="{{ MEDIA_URL }}{{ i.article.image }}" alt="用DTcms做一个独立博客网站（响应式模板）"  style="display: block;">
+			</span><span href="{% url 'article:article_detail' i.id %}" class="text">{{ i.article.title }}</span><span class="muted"><i class="glyphicon glyphicon-time"></i>
+				{{ i.article.add_time }}
+			</span><span class="muted"><i class="glyphicon glyphicon-eye-open"></i>{{ i.article.click_nums }}</span></a></li>{% endfor %}
+
+
+	  </ul>
+ </div>{% endblock %}
+{% block contact %}<div class="content">
+  <div id="focusslide" class="carousel slide" data-ride="carousel">
+	<ol class="carousel-indicators">
+	  <li data-target="#focusslide" data-slide-to="0" class="active"></li>
+	  <li data-target="#focusslide" data-slide-to="1"></li>
+	</ol>
+	{% for i in banner %}<div class="carousel-inner" role="listbox">
+	  <div class="item active">
+	  <a href="#" target="_blank" title="FCY网络博客源码" >
+	  <img src="{{ MEDIA_URL }}{{ i.image1 }}" alt="FCY网络博客源码" class="img-responsive"></a>
+	  </div>
+	  <div class="item">
+	  <a href="#" target="_blank" title="专业网站建设" >
+	  <img src="{{ MEDIA_URL }}{{ i.image2 }}" alt="专业网站建设" class="img-responsive"></a>
+	  </div>
+	</div>{% endfor %}
+	<a class="left carousel-control" href="#focusslide" role="button" data-slide="prev" rel="nofollow"> <span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span> <span class="sr-only">上一个</span> </a> <a class="right carousel-control" href="#focusslide" role="button" data-slide="next" rel="nofollow"> <span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span> <span class="sr-only">下一个</span> </a> </div>
+<article class="excerpt-minic excerpt-minic-index">
+		{% for i in top %}<h2><span class="red">【推荐】</span><a target="_blank" href="{% url 'index' %}" title="用DTcms做一个独立博客网站（响应式模板）" >{{ i.title }}</a>
+		</h2>
+		<p class="note">{% autoescape off %}{{ i.body }}{% endautoescape %}</p>{% endfor %}
+	</article>
+  <div class="title">
+	<h3>最新发布</h3>
+	<div class="more">
+
+			<a href="{% url 'article:study_list' %}" title="IT技术笔记" >我的笔记</a>
+			<a href="{% url 'resources' %}" title="源码分享" >源码分享</a>
+
+			<a href="#" title="资讯分享" >资讯分享</a>
+		</div>
+  </div>
+  {% for i in new_article %}
+
+  <article class="excerpt excerpt-5" style=""><a class="focus" href="{% url 'article:article_detail' i.id %}" title="用DTcms做一个独立博客网站（响应式模板）" target="_blank" ><img class="thumb" data-original="{{ MEDIA_URL }}{{ i.article.image }}" src="{{ MEDIA_URL }}{{ i.article.image }}" alt="用DTcms做一个独立博客网站（响应式模板）"  style="display: inline;"></a>
+		<header><a class="cat" href="{% url 'article:article_detail' i.id %}" title="MZ-NetBlog主题" >{{ i.article.label_one }}<i></i></a>
+			<h2><a href="{% url 'article:article_detail' i.id %}" title="用DTcms做一个独立博客网站（响应式模板）" target="_blank" >{{ i.article.title }}</a>
+			</h2>
+		</header>
+		<p class="meta">
+			<time class="time"><i class="glyphicon glyphicon-time"></i>{{ i.add_time }}</time>
+			<span class="views"><i class="glyphicon glyphicon-eye-open"></i> {{ i.article.click_nums }}</span> <a class="comment"  title="评论" target="_blank" ><i class="glyphicon glyphicon-comment"></i> {{ i.article.comment }}</a>
+		</p>
+		<p class="note">{{ i.article.desc }}</p>
+	</article>{% endfor %}
+  <nav class="pagination" style="display: none;">
+	<ul>
+	  <li class="prev-page"></li>
+	  <li class="active"><span>1</span></li>
+	  <li><a href="?page=2">2</a></li>
+	  <li class="next-page"><a href="?page=2">下一页</a></li>
+	  <li><span>共 2 页</span></li>
+	</ul>
+  </nav>
+</div>{% endblock %}
